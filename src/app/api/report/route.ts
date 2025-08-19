@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { poktpoolDb, waxtraxDb, calculateDifference } from '@/lib/db';
+import { poktpoolDb, waxtraxDb, calculateDifference, executeQuery } from '@/lib/db';
 import { reportInputSchema } from '@/lib/schemas';
 import { env } from '@/lib/env';
 
@@ -80,58 +80,52 @@ export async function POST(request: NextRequest) {
 }
 
 async function queryPoktpoolDb(wallet_address: string) {
-  const startTime = Date.now();
+  const query = `
+    SELECT
+      wvr.wallet_address,
+      wvr.req_timestamp,
+      wvr.verf_amount
+    FROM wallet_verf_req AS wvr
+    WHERE wvr.network_id = 2
+      AND wvr.wallet_address = $1
+    ORDER BY wvr.req_timestamp DESC
+    LIMIT 1;
+  `;
+
+  const result = await executeQuery(poktpoolDb, query, [wallet_address]);
   
-  try {
-    const query = `
-      SELECT
-        wvr.wallet_address,
-        wvr.req_timestamp,
-        wvr.verf_amount
-      FROM wallet_verf_req AS wvr
-      WHERE wvr.network_id = 2
-        AND wvr.wallet_address = $1
-      ORDER BY wvr.req_timestamp DESC
-      LIMIT 1;
-    `;
-
-    const result = await poktpoolDb.query(query, [wallet_address]);
-    const latency = Date.now() - startTime;
-
-    return {
-      data: result.rows[0] || null,
-      latency,
-    };
-  } catch (error) {
-    throw new Error(`Poktpooldb query failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  if (!result.success) {
+    throw new Error(`Poktpooldb query failed: ${result.error}`);
   }
+
+  return {
+    data: result.data?.[0] || null,
+    latency: result.latency,
+  };
 }
 
 async function queryWaxtraxDb(network_txn_hash: string) {
-  const startTime = Date.now();
+  const query = `
+    SELECT
+      network_id,
+      network_txn_hash,
+      from_wallet_address,
+      to_wallet_address,
+      amount
+    FROM public.network_txn
+    WHERE network_id = 2
+      AND network_txn_hash = $1
+    LIMIT 1;
+  `;
+
+  const result = await executeQuery(waxtraxDb, query, [network_txn_hash]);
   
-  try {
-    const query = `
-      SELECT
-        network_id,
-        network_txn_hash,
-        from_wallet_address,
-        to_wallet_address,
-        amount
-      FROM public.network_txn
-      WHERE network_id = 2
-        AND network_txn_hash = $1
-      LIMIT 1;
-    `;
-
-    const result = await waxtraxDb.query(query, [network_txn_hash]);
-    const latency = Date.now() - startTime;
-
-    return {
-      data: result.rows[0] || null,
-      latency,
-    };
-  } catch (error) {
-    throw new Error(`Waxtrax query failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  if (!result.success) {
+    throw new Error(`Waxtrax query failed: ${result.error}`);
   }
+
+  return {
+    data: result.data?.[0] || null,
+    latency: result.latency,
+  };
 }

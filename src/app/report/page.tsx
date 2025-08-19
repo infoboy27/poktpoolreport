@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { DatabaseStatus } from '@/components/database-status';
 import Image from 'next/image';
 
 // Utility functions for client-side formatting
@@ -139,6 +140,9 @@ export default function ReportPage() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Database Status */}
+        <DatabaseStatus />
+        
         {/* Input Form */}
         <Card className="mb-8">
           <CardHeader>
