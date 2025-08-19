@@ -4,10 +4,10 @@ services:
   poktpool-report:
     build: .
     ports:
-      - "3007:3007"
+      - "3008:3008"
     environment:
       - NODE_ENV=production
-      - PORT=3007
+      - PORT=3008
       - APP_LOGIN_EMAIL=admin@poktpool.com
       - APP_LOGIN_PASSWORD=change_me
       - BRAND_NAME=PoktPool
@@ -27,10 +27,10 @@ services:
       - WAXTRAX_USER=vultradmin
       - WAXTRAX_PASSWORD=your_waxtrax_password_here
       - NEXTAUTH_SECRET=your_nextauth_secret_here
-      - NEXTAUTH_URL=http://localhost:3007
+      - NEXTAUTH_URL=http://localhost:3008
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3007/api/auth/session"]
+      test: ["CMD", "curl", "-f", "http://localhost:3008/api/auth/session"]
       interval: 30s
       timeout: 10s
       retries: 3
