@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  poktpool-report:
+    build: .
+    ports:
+      - "3006:3006"
+    environment:
+      - NODE_ENV=production
+      - PORT=3006
+      - APP_LOGIN_EMAIL=admin@poktpool.com
+      - APP_LOGIN_PASSWORD=change_me
+      - BRAND_NAME=PoktPool
+      - BRAND_PRIMARY_HEX=#1F4DD9
+      - BRAND_SECONDARY_HEX=#0A1633
+      - BRAND_LIGHT_HEX=#EAF0FF
+      - BRAND_DARK_HEX=#040915
+      - BRAND_CONVERT_MICRO_UNITS=false
+      - POKTPOOLDB_HOST=localhost
+      - POKTPOOLDB_PORT=5432
+      - POKTPOOLDB_NAME=poktpooldb
+      - POKTPOOLDB_USER=postgres_chadmin
+      - POKTPOOLDB_PASSWORD=your_poktpooldb_password_here
+      - WAXTRAX_HOST=localhost
+      - WAXTRAX_PORT=5432
+      - WAXTRAX_NAME=waxtrax
+      - WAXTRAX_USER=vultradmin
+      - WAXTRAX_PASSWORD=your_waxtrax_password_here
+      - NEXTAUTH_SECRET=your_nextauth_secret_here
+      - NEXTAUTH_URL=http://localhost:3006
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3006/api/auth/session"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

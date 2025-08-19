@@ -1,0 +1,16 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- PoktPool Logo Placeholder -->
+  <g>
+    <!-- Background rectangle -->
+    <rect width="200" height="60" fill="#1F4DD9" rx="8"/>
+    
+    <!-- POKT Text -->
+    <text x="20" y="35" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="white">POKT</text>
+    
+    <!-- Pool Text -->
+    <text x="80" y="35" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="400" fill="#EAF0FF">Pool</text>
+    
+    <!-- Placeholder note -->
+    <text x="20" y="50" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#EAF0FF">Replace with actual logo.png</text>
+  </g>
+</svg>
