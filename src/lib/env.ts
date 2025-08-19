@@ -58,7 +58,7 @@ export const env = (() => {
       WAXTRAX_USER: 'vultradmin',
       WAXTRAX_PASSWORD: 'placeholder',
       NEXTAUTH_SECRET: 'build-time-secret',
-      NEXTAUTH_URL: 'http://localhost:3006',
+                NEXTAUTH_URL: 'http://localhost:3007',
     };
   }
 })();

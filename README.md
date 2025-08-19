@@ -72,7 +72,7 @@ WAXTRAX_PASSWORD=<<SECRET>>
 
 # NextAuth
 NEXTAUTH_SECRET=your-secret-key-here
-NEXTAUTH_URL=http://localhost:3006
+NEXTAUTH_URL=http://localhost:3007
 ```
 
 ### 3. Development
